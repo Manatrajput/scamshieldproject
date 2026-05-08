@@ -46,3 +46,5 @@ def analyze_email(email_text, mode='normal', lang='en'):
         "score": risk_score,
         "explanations": explanations
     }
+
+
