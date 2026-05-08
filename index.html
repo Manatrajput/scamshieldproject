@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard AI - Cyber Security Advisor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-grid"></div>
+    <div class="glow-orb top-left"></div>
+    <div class="glow-orb bottom-right"></div>
+    
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i> CyberGuard AI
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#url-scanner" class="active">URL Scanner</a></li>
+                <li><a href="#password-analyzer">Password Analyzer</a></li>
+                <li><a href="#email-analyzer">Email Analyzer</a></li>
+                <li><a href="#simulation-mode">Training</a></li>
+                <li><a href="#security-profile">My Profile</a></li>
+            </ul>
+        </nav>
+        <div class="header-controls">
+            <select id="lang-select" class="styled-select">
+                <option value="en">English</option>
+                <option value="hinglish">Hinglish</option>
+            </select>
+            <select id="mode-select" class="styled-select">
+                <option value="normal">Normal</option>
+                <option value="eli5">ELI5 Mode</option>
+            </select>
+            <button id="theme-toggle" class="icon-button" title="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Sidebar -->
+        <div class="sidebar-container">
+            <div class="history-panel fade-in">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> History</h3>
+                <ul id="history-list"></ul>
+                <button id="clear-history" class="text-button">Clear All</button>
+            </div>
+            
+            <div class="gamification-panel fade-in">
+                <h3><i class="fa-solid fa-trophy"></i> Rank</h3>
+                <div class="rank-display">
+                    <span id="user-rank">Beginner</span>
+                    <div class="xp-bar-bg">
+                        <div id="xp-bar-fill" class="xp-bar-fill" style="width: 0%;"></div>
+                    </div>
+                    <span id="xp-text">0 / 100 XP</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-panel">
+            <!-- URL Scanner Section -->
+            <section id="url-scanner" class="card fade-in">
+                <!-- ... existing content remains ... -->
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-link"></i> Phishing URL Scanner</h2>
+                    <p>Analyze links for potential phishing threats using Smart Checking.</p>
+                </div>
+                <div class="card-body">
+                    <form id="url-form">
+                        <div class="input-group">
+                            <i class="fa-solid fa-globe input-icon"></i>
+                            <input type="text" id="url-input" placeholder="e.g., https://example.com/login" required>
+                            <button type="button" class="voice-btn" id="voice-url-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+                            <button type="submit" id="url-submit-btn" class="btn primary-btn">Scan URL</button>
+                        </div>
+                    </form>
+                    
+                    <div id="url-loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Scanning global threat databases...</p>
+                    </div>
+
+                    <div id="url-result" class="result-container hidden">
+                        <div class="score-ring">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="url-circle" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text id="url-score-text" x="18" y="20.35" class="percentage">0%</text>
+                            </svg>
+                            <p class="score-label">Risk Score</p>
+                        </div>
+                        
+                        <div class="result-details">
+                            <h3 id="url-status" class="status"></h3>
+                            <div class="explanations">
+                                <h4>📚 AI Security Advisor says:</h4>
+                                <ul id="url-explanations-list"></ul>
+                            </div>
+                            
+                            <div id="url-extra-info" class="extra-info hidden">
+                                <div class="action-guide">
+                                    <h4 style="color: var(--color-medium);"><i class="fa-solid fa-hand-point-right"></i> Action Guide</h4>
+                                    <p id="url-action-text"></p>
+                                </div>
+                                <div class="consequence-simulation">
+                                    <h4 style="color: var(--color-danger);"><i class="fa-solid fa-triangle-exclamation"></i> "What If" Simulation</h4>
+                                    <p id="url-consequence-text"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Password Analyzer Section -->
+            <section id="password-analyzer" class="card fade-in">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-key"></i> Password Intelligence Analyzer</h2>
+                    <p>Calculates entropy and estimates time-to-crack for elite security.</p>
+                </div>
+                <div class="card-body">
+                    <form id="password-form">
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="password-input" placeholder="Enter password to evaluate" required>
+                            <i class="fa-solid fa-eye-slash toggle-password" id="toggle-pwd-btn"></i>
+                        </div>
+                    </form>
+                    
+                    <button type="button" id="generate-pwd-btn" class="btn secondary-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Strong Password</button>
+
+                    <div class="password-meter-container">
+                        <div class="meter-labels">
+                            <span>Strength: <strong id="pwd-status-text">None</strong></span>
+                            <span id="pwd-score-number">0/100</span>
+                        </div>
+                        <div class="meter-bar-bg">
+                            <div id="pwd-meter-fill" class="meter-bar-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="encryption-stats">
+                            <span><i class="fa-solid fa-stopwatch"></i> Crack Time: <span id="pwd-crack-time">-</span></span>
+                            <span><i class="fa-solid fa-chart-line"></i> Entropy: <span id="pwd-entropy">-</span> bits</span>
+                        </div>
+                    </div>
+
+                    <div id="pwd-result" class="result-container hidden">
+                        <div class="result-details full-width">
+                            <div class="explanations">
+                                <h4>📚 AI Security Advisor says:</h4>
+                                <ul id="pwd-explanations-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Email Analyzer Section -->
+            <section id="email-analyzer" class="card fade-in">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-envelope"></i> Email Phishing Analyzer</h2>
+                    <p>Detect social engineering, urgency, and malicious intent in emails.</p>
+                </div>
+                <div class="card-body">
+                    <form id="email-form">
+                        <div class="input-group vertical-group">
+                            <textarea id="email-input" rows="6" placeholder="Paste the suspicious email text here..." required></textarea>
+                            <div class="btn-row">
+                                <button type="button" class="voice-btn" id="voice-email-btn" title="Voice Input"><i class="fa-solid fa-microphone"></i> Read aloud</button>
+                                <button type="submit" id="email-submit-btn" class="btn primary-btn full-width-btn">Analyze Email Content</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="email-loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Analyzing behavioral traits and text patterns...</p>
+                    </div>
+
+                    <div id="email-result" class="result-container hidden">
+                        <div class="score-ring">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="email-circle" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text id="email-score-text" x="18" y="20.35" class="percentage">0%</text>
+                            </svg>
+                            <p class="score-label">Threat Score</p>
+                        </div>
+                        
+                        <div class="result-details">
+                            <h3 id="email-status" class="status"></h3>
+                            <div class="explanations">
+                                <h4>📚 AI Security Advisor says:</h4>
+                                <ul id="email-explanations-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simulation Mode Section -->
+            <section id="simulation-mode" class="card fade-in">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-gamepad"></i> Phishing Simulation Lab</h2>
+                    <p>Practice identifying real-world phishing attempts in a safe environment.</p>
+                </div>
+                <div class="card-body">
+                    <div id="sim-container">
+                        <div class="sim-scenario">
+                            <h3 id="sim-title">Loading scenario...</h3>
+                            <div id="sim-content" class="sim-content-box"></div>
+                            <div class="sim-actions">
+                                <button class="btn secondary-btn sim-btn" data-action="click">Click / Interact</button>
+                                <button class="btn primary-btn sim-btn" data-action="ignore">Ignore / Delete</button>
+                                <button class="btn danger-btn sim-btn" data-action="report">Report as Phishing</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sim-feedback" class="result-container hidden">
+                        <div class="result-details full-width">
+                            <h3 id="sim-status" class="status"></h3>
+                            <p id="sim-explanation"></p>
+                            <button id="next-sim-btn" class="btn primary-btn" style="margin-top: 1rem; border-radius: 8px;">Next Scenario</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Personal Security Profile Section -->
+            <section id="security-profile" class="card fade-in">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-user-shield"></i> Personal Security Profile</h2>
+                    <p>Your progress, achievements, and security health report.</p>
+                </div>
+                <div class="card-body">
+                    <div class="profile-grid">
+                        <div class="profile-stat-card">
+                            <h4>Overall Security Score</h4>
+                            <div class="big-score" id="total-security-score">0</div>
+                            <p>Based on your habits and training.</p>
+                        </div>
+                        <div class="profile-stat-card">
+                            <h4>Achievements</h4>
+                            <div id="achievements-list" class="badge-container">
+                                <!-- Badges injected here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report-actions">
+                        <button id="download-report-btn" class="btn primary-btn full-width-btn">
+                            <i class="fa-solid fa-file-pdf"></i> Download Weekly Digital Hygiene Report
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Cyber Assistant -->
+    <div id="assistant-widget" class="assistant-collapsed">
+        <div id="assistant-header">
+            <span><i class="fa-solid fa-robot"></i> Cyber Assistant</span>
+            <button id="close-assistant"><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        <div id="assistant-chat" class="chat-area">
+            <div class="msg bot">Hello! I'm your Cyber Assistant. How can I help you stay safe today?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="assistant-input" placeholder="Ask me about phishing, passwords...">
+            <button id="assistant-send"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="open-assistant" class="assistant-trigger">
+        <i class="fa-solid fa-comment-dots"></i>
+    </button>
+
+    <footer>
+        <p>CyberGuard AI. Advanced threat intelligence for everyone.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
